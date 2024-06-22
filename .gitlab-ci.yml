@@ -6,7 +6,7 @@ stages:
 include: 'version.yaml'
 
 variables:
-  NAME: release-ganerator
+  NAME: user-docs
   FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$NAME:latest"
   # The FQIN with Version variable below is not currently used; meant to be used so we have latest and a version to return to
   FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$NAME:$VERSION"

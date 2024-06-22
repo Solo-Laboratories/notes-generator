@@ -7,7 +7,7 @@ deployment:
   replicas: 1
   image:
     registry: registry.sololab.one/solo-laboratories/development/releasegenerator
-    name: release-ganerator
+    name: user-docs
     tag: latest
     pullPolicy: Always
 
