@@ -21,7 +21,7 @@ package:
     - docker push $FQ_IMAGE_NAME
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
-      when: manaul
+      when: manual
 
 deploy:
   stage: deploy
@@ -33,3 +33,4 @@ deploy:
     - helm upgrade --install user-docs deploy/helm -n user-docs --create-namespace --atomic --kube-context="" --timeout 1m0s
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
+      when: manual  
