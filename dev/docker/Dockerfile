@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1
+FROM golang:${GOLANG_VERSION} AS build
 ARG GOLANG_VERSION=1.22.4
 ARG SRC_DIR
 ARG EXE_NAME
-
-FROM golang:${GOLANG_VERSION} as build
 
 ENV GOOS=linux
 ENV GOARCH=amd64
