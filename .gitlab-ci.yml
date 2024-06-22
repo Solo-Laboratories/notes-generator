@@ -1,6 +1,6 @@
 stages:
   - build
-  - set-channel
+  - channel
   - package
   - deploy
 
@@ -27,7 +27,7 @@ build-docker:
     when: never
 
 set-devel:
-  stage: set-channel
+  stage: channel
   image: alpine
   script:
   - echo "STAGE=devel" >> build.env
@@ -39,7 +39,7 @@ set-devel:
     when: never 
 
 set-stable:
-  stage: set-channel
+  stage: channel
   image: alpine
   script:
   - echo "STAGE=stable" >> build.env
