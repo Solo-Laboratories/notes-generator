@@ -6,9 +6,10 @@ stages:
 include: 'version.yaml'
 
 variables:
-  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:latest"
+  NAME: release-ganerator
+  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$NAME:latest"
   # The FQIN with Version variable below is not currently used; meant to be used so we have latest and a version to return to
-  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$VERSION"
+  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$NAME:$VERSION"
 
 package:
   stage: package
@@ -29,8 +30,8 @@ deploy:
     name: alpine/helm:3.14.4
     entrypoint: ['']
   script:
-    - helm uninstall user-docs -n user-docs --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster"
-    - helm upgrade --install user-docs deploy/helm -n user-docs --create-namespace --atomic --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" --timeout 1m0s
+    - helm uninstall  $NAME -n user-docs --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster"
+    - helm upgrade --install $NAME deploy/helm -n user-docs --create-namespace --atomic --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" --timeout 1m0s
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
       when: manual  
