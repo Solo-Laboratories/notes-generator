@@ -1,0 +1,15 @@
+build:
+  stage: build
+  image: docker:26.1.4
+  variables:
+    FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:1.0.0"
+    GLAB: GLAB_VERSION=1.40.0
+    GOLANG_VERSION: 1.22.4
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker builder prune -f
+  script:
+    - docker build -t $FQ_IMAGE_NAME --build-arg GLAB=$GLAB --build-arg GOLANG_VERSION=$GOLANG_VERSION .
+    - docker push $FQ_IMAGE_NAME
+  rules:
+  - when: manual
