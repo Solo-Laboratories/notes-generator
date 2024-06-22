@@ -1,0 +1,24 @@
+title: Release Generator User Docs 
+# uncomment baseurl if you want to publish the site to a subfolder
+#baseurl: /blog
+description: User Documentation for the Release Generator project
+collections:
+  guides:
+    output: true
+exclude:
+- Gemfile
+- Gemfile.lock
+- .gitignore
+- .dockerignore
+- .gitlab-ci.yml
+- deploy
+- README.md
+asciidoc: {}
+asciidoctor:
+  base_dir: :docdir
+  safe: unsafe
+  attributes:
+    icons: font
+    idseparator: _
+    stylesdir: css
+    source-highlighter: coderay

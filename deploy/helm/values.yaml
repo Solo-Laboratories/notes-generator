@@ -1,0 +1,19 @@
+container:
+  name: docs
+  port: 4000
+
+deployment:
+  name: docs-deploy
+  replicas: 1
+  image:
+    registry: development/languages/stuff
+    name: documentation
+    tag: latest
+    pullPolicy: Always
+
+service:
+  name: docs-srv
+
+route:
+  name: docs-ingress-route
+  endpoint: some-endpoint

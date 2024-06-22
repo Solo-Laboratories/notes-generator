@@ -1,2 +1,2 @@
 # ReleaseGenerator
-Generate docs/notes during different stages of software development lifecycle
+User Documentation for the Release Generator

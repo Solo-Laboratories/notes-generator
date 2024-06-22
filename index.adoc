@@ -1,0 +1,6 @@
+= Release Generator Landing Page!
+:showtitle:
+:page-title: Home Page
+:page-description: Landing page for anything Release Generator Related
+
+There will be more information to come here but this lays out the structure. Below is more template information from the template I copied this from.

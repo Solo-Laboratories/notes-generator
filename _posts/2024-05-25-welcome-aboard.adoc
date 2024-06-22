@@ -1,0 +1,9 @@
+= Welcome Aboard Chaps!
+:showtitle:
+:page-navtitle: Welcome Aboard!
+:page-excerpt: First post on making a crappy language
+:page-root: ../../../
+
+== It all begins here!
+
+There will be more to come later on!

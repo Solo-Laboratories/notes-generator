@@ -1,0 +1,8 @@
+.gitlab-ci.yml
+Dockerfile
+README.md
+.gitignore
+Gemfile.lock
+deploy
+LICENSE
+version.yaml

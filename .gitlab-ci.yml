@@ -1,0 +1,35 @@
+stages:
+  - build
+  - package
+  - deploy
+
+include: 'version.yaml'
+
+variables:
+  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:latest"
+  # The FQIN with Version variable below is not currently used; meant to be used so we have latest and a version to return to
+  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$VERSION"
+
+package:
+  stage: package
+  image: docker:26.1.4
+  before_script:
+    - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
+    - docker builder prune -f
+  script:
+    - docker build -t $FQ_IMAGE_NAME --build-arg SRC=$CI_PROJECT_DIR deploy/docker/Dockerfile
+    - docker push $FQ_IMAGE_NAME
+  rules:
+    - if: $CI_COMMIT_BRANCH == "docs"
+      when: manaul
+
+deploy:
+  stage: deploy
+  image: 
+    name: alpine/helm:3.14.4
+    entrypoint: ['']
+  script:
+    - helm uninstall user-docs -n user-docs --kube-context=""
+    - helm upgrade --install user-docs deploy/helm -n user-docs --create-namespace --atomic --kube-context="" --timeout 1m0s
+  rules:
+    - if: $CI_COMMIT_BRANCH == "docs"

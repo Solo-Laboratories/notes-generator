@@ -1,0 +1,9 @@
+= Release Generator Root Documentation
+:showtitle:
+:page-navtitle: Documenation
+:page-excerpt: Home page for the documenation; think the top level
+:page-root: ../../
+
+== Here be dragons?
+
+There is nothing here yet but this will be the root of the user docs. Come back later plz!
