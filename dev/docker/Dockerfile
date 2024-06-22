@@ -13,12 +13,12 @@ COPY ${SRC_DIR} /work
 
 # Build service
 RUN --mount=type=cache,target=/root/.cache/go-build,sharing=private \
-  go build -o "bin/${EXE_NAME}" .
+  go build -o bin/${EXE_NAME} .
 
 # ---
 FROM scratch AS run
 
-COPY --from=build "/work/bin/${EXE_NAME}" /usr/local/bin/
+COPY --from=build /work/bin/${EXE_NAME} /usr/local/bin/
 
 EXPOSE 8080
-CMD ["${EXE_NAME}"]
+CMD [${EXE_NAME}]
