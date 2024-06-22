@@ -1,19 +1,19 @@
 container:
-  name: docs
+  name: user-docs
   port: 4000
 
 deployment:
   name: docs-deploy
   replicas: 1
   image:
-    registry: development/languages/stuff
-    name: documentation
+    registry: registry.sololab.one/solo-laboratories/development/releasegenerator
+    name: release-ganerator
     tag: latest
     pullPolicy: Always
 
 service:
-  name: docs-srv
+  name: user-docs-svc
 
 route:
   name: docs-ingress-route
-  endpoint: some-endpoint
+  endpoint: release-generator.sololab.org
