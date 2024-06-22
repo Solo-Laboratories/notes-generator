@@ -9,10 +9,12 @@ exclude:
 - Gemfile
 - Gemfile.lock
 - .gitignore
-- .dockerignore
 - .gitlab-ci.yml
+- .github
 - deploy
 - README.md
+- vresion.yaml
+- LICENSE
 asciidoc: {}
 asciidoctor:
   base_dir: :docdir
