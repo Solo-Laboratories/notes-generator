@@ -25,4 +25,8 @@ go.work.sum
 # env file
 .env
 
+# Personal
+bin
+build
+
 ## ----------------- ##
