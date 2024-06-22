@@ -18,7 +18,7 @@ package:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker builder prune -f
   script:
-    - docker build -t $FQ_IMAGE_NAME --build-arg SRC=$CI_PROJECT_DIR deploy/docker/Dockerfile
+    - docker build -t $FQ_IMAGE_NAME --build-arg SRC=$CI_PROJECT_DIR $CI_PROJECT_DIR/deploy/docker/Dockerfile
     - docker push $FQ_IMAGE_NAME
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
@@ -31,7 +31,7 @@ deploy:
     entrypoint: ['']
   script:
     - helm uninstall  $NAME -n user-docs --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster"
-    - helm upgrade --install $NAME deploy/helm -n user-docs --create-namespace --atomic --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" --timeout 1m0s
+    - helm upgrade --install $NAME $CI_PROJECT_DIR/deploy/helm -n user-docs --create-namespace --atomic --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" --timeout 1m0s
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
       when: manual  
