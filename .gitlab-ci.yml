@@ -2,6 +2,7 @@ stages:
   - build
   - channel
   - package
+  - push
   - deploy
 
 include: 'version.yaml'
@@ -70,7 +71,7 @@ bundle-helm:
   - when: on_success
 
 push-helm:
-  stage: package
+  stage: push
   image: 
     name: alpine/helm:3.14.4
     entrypoint: ['']
