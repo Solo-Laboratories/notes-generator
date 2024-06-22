@@ -7,8 +7,9 @@ stages:
 include: 'version.yaml'
 
 variables:
-  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:latest"
-  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$VERSION"
+  NAME: generator
+  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$NAME:latest"
+  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$NAME:$VERSION"
 
 build-docker:
   stage: build
