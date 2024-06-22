@@ -21,4 +21,4 @@ FROM scratch AS run
 COPY --from=build /work/bin/${EXE_NAME} /usr/local/bin/
 
 EXPOSE 8080
-CMD [${EXE_NAME}]
+CMD ['${EXE_NAME}']
