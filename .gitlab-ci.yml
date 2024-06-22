@@ -1,25 +1,52 @@
 stages:
   - build
+  - set-channel
   - package
   - deploy
 
-variables:
-  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/user-docs:latest"
-  # The FQIN with Version variable below is not currently used; meant to be used so we have latest and a version to return to
-  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/user-docs:0.0.1"
+include: 'version.yaml'
 
-package:
-  stage: package
-  image: docker:24.0.5
+variables:
+  FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:latest"
+  FQ_IMAGE_NAME_W_VERSION: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$VERSION"
+
+build-docker:
+  stage: build
+  image: docker:26.1.4
+  variables:
+    FQ_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$VERSION"
+    GOLANG_VERSION: 1.22.4
   before_script:
-    - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker builder prune -f
   script:
-    - docker build -t $FQ_IMAGE_NAME .
-    - docker push $FQ_IMAGE_NAME
+    - docker build -t $FQ_IMAGE_NAME_W_VERSION --build-arg GOLANG_VERSION=$GOLANG_VERSION --build-arg SRC_DIR=$CI_PROJECT_DIR deploy/docker/Dockerfile
+    - docker push $FQ_IMAGE_NAME_W_VERSION
   rules:
-    # - if: $CI_COMMIT_BRANCH == "docs"
-    - when: manual
+  - when: manual
+
+set-devel:
+  stage: set-channel
+  image: alpine
+  script:
+  - echo "set environemt here"
+  artifact:
+    filename: channel.env
+  rules:
+  - when: manual 
+
+helm:
+  stage: package
+  image: 
+    name: alpine/helm:3.14.4
+    entrypoint: ['']
+  script:
+  - helm package -u deploy/helm --version=$VERSION
+  - helm repo add --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_PROJECT_NAME $CI_API_V4/projects/$CI_PROJECT_ID/packages/helm/devel
+  - helm plugin install https://github.com/chartmuseum/helm-push
+  - helm cm-push $CI_PROJECT_NAME-*.tgz $CI_PROJECT_NAME
+  rules:
+  - when: manual
 
 deploy:
   stage: deploy
@@ -27,8 +54,7 @@ deploy:
     name: alpine/helm:3.14.4
     entrypoint: ['']
   script:
-    - helm uninstall user-docs -n release-generator --kube-context=""
-    - helm upgrade --install user-docs -n release-generator --atomic --kube-context="" --timeout 1m0s
+  - helm uninstall $CI_PROJECT_NAME -n release-generator --kube-context=""
+  - helm upgrade --install $CI_PROJECT_NAME -n release-generator --atomic --kube-context="" --timeout 1m0s
   rules:
-    # - if: $CI_COMMIT_BRANCH == "docs"
-    - when: manual
+  - when: manual

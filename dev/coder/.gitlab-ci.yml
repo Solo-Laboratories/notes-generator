@@ -9,7 +9,7 @@ build:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker builder prune -f
   script:
-    - docker build -t $FQ_IMAGE_NAME --build-arg $GLAB --build-arg $GOLANG_VERSION .
+    - docker build -t $FQ_IMAGE_NAME --build-arg GLAB=$GLAB --build-arg GOLANG_VERSION=$GOLANG_VERSION .
     - docker push $FQ_IMAGE_NAME
   rules:
   - when: manual
