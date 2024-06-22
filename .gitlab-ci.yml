@@ -29,8 +29,8 @@ deploy:
     name: alpine/helm:3.14.4
     entrypoint: ['']
   script:
-    - helm uninstall user-docs -n user-docs --kube-context=""
-    - helm upgrade --install user-docs deploy/helm -n user-docs --create-namespace --atomic --kube-context="" --timeout 1m0s
+    - helm uninstall user-docs -n user-docs --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster"
+    - helm upgrade --install user-docs deploy/helm -n user-docs --create-namespace --atomic --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" --timeout 1m0s
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
       when: manual  
