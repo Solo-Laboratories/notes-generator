@@ -30,7 +30,7 @@ deploy:
     name: alpine/helm:3.14.4
     entrypoint: ['']
   script:
-    - helm uninstall  $NAME -n user-docs --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster"
+    - helm uninstall  $NAME -n user-docs --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" || true
     - helm upgrade --install $NAME $CI_PROJECT_DIR/deploy/helm -n user-docs --create-namespace --atomic --kube-context="solo-laboratories/development/ReleaseGenerator:local-cluster" --timeout 1m0s
   rules:
     - if: $CI_COMMIT_BRANCH == "docs"
